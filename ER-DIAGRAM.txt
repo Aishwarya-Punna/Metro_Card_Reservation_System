@@ -1,0 +1,48 @@
+
+==================================================================
+Entity-Relationship Diagram for Metro_Card_Reservation_System
+==================================================================
+
+
+                              ┌──────────────────────────────┐
+                              │            USERS             │
+                              ├──────────────────────────────┤
+                              │ PK  user_id                  │
+                              │     name                     │
+                              │     phone_number             │
+                              │     email                    │
+                              │                              │
+                              │ CHECK phone_number REGEXP    │
+                              │ '^[6-9][0-9]{9}$'            │
+                              │ CHECK email LIKE             │
+                              │ '%@gmail.com'                │
+                              └───────────────┬──────────────┘
+                                              │ 1
+                                              │
+                                              │ 1
+                              ┌───────────────▼──────────────┐
+                              │        METRO_CARDS           │
+                              ├──────────────────────────────┤
+                              │ PK  card_id                  │
+                              │ UQ  card_number              │
+                              │     card_type (ENUM)         │
+                              │     balance                  │
+                              │     expiry_date              │
+                              └───────────────┬──────────────┘
+                                              │
+                          ┌───────────────────┴───────────────────┐
+                          │                                       │
+                         1│                                      1│
+                          │                                       │
+                         M│                                      M│
+                          │                                       │
+              ┌───────────▼────────────┐             ┌────────────▼───────────┐
+              │         TRIPS          │             │      TRANSACTIONS      │
+              ├────────────────────────┤             ├────────────────────────┤
+              │ PK  trip_id            │             │ PK  transaction_id     │
+              │ FK  card_id            │             │ FK  card_id            │
+              │     source_station     │             │     transaction_type   │
+              │     destination_station│             │     amount             │
+              │     travel_date        │             │     transaction_date   │
+              │     fare               │             │ DEFAULT CURRENT_TIMESTAMP │
+              └────────────────────────┘             └────────────────────────┘
